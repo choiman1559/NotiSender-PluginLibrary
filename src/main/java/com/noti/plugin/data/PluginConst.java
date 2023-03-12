@@ -1,4 +1,4 @@
-package com.noti.plugin;
+package com.noti.plugin.data;
 
 public class PluginConst {
     public static final String SENDER_PACKAGE_NAME = "com.noti.main";

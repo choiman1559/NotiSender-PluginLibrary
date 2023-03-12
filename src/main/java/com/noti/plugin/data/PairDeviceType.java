@@ -1,4 +1,4 @@
-package com.noti.plugin;
+package com.noti.plugin.data;
 
 public class PairDeviceType {
     private final String THIS_DEVICE_TYPE;

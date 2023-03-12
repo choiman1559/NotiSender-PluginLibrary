@@ -1,5 +1,9 @@
 package com.noti.plugin;
 
+import androidx.annotation.Nullable;
+
+import com.noti.plugin.listener.PluginResponse;
+
 public class Plugin {
     private static Plugin instance;
 
@@ -7,23 +11,27 @@ public class Plugin {
     private String appPackageName = "";
     private String settingClass;
     private boolean isPluginReady = false;
+    private PluginResponse pluginResponse;
 
     public static Plugin getInstance() {
-        if(instance == null) throw new RuntimeException("Plugin instance is null");
-        else return instance;
+       Plugin instance = getInstanceAllowNull();
+       if(instance == null) throw new NullPointerException("Plugin instance is null");
+       else return instance;
     }
 
-    public static Plugin init() {
+    @Nullable
+    public static Plugin getInstanceAllowNull() {
+        return instance;
+    }
+
+    public static Plugin init(PluginResponse pluginResponse) {
         if(instance == null) instance = new Plugin();
+        instance.pluginResponse = pluginResponse;
         return instance;
     }
 
     public boolean isPluginReady() {
         return isPluginReady;
-    }
-
-    public boolean isServiceRunning() {
-        return true;
     }
 
     public String getPluginDescription() {
@@ -36,6 +44,10 @@ public class Plugin {
 
     public String getSettingClass() {
         return settingClass;
+    }
+
+    public PluginResponse getPluginResponse() {
+        return pluginResponse;
     }
 
     public void setAppPackageName(String appPackageName) {
