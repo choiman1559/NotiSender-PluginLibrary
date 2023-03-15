@@ -6,10 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import com.noti.plugin.BuildConfig;
 import com.noti.plugin.Plugin;
 import com.noti.plugin.data.PairDeviceInfo;
 import com.noti.plugin.data.PluginConst;
+import com.noti.plugin.listener.PrefsDataListener;
+import com.noti.plugin.listener.RemoteDataListener;
+import com.noti.plugin.listener.ServiceStatusListener;
 
 import org.jetbrains.annotations.TestOnly;
 
@@ -17,6 +22,14 @@ import org.jetbrains.annotations.TestOnly;
 public class PluginAction {
 
     public static void requestDeviceList(Context context) {
+        requestDeviceList(context, null);
+    }
+
+    public static void requestDeviceList(Context context, RemoteDataListener.onReceivedListener callback) {
+        if (callback != null) {
+            RemoteDataListener.addOnDataReceivedListener(callback);
+        }
+
         Bundle extras = new Bundle();
         extras.putString(PluginConst.DATA_KEY_TYPE, PluginConst.ACTION_REQUEST_DEVICE_LIST);
         sendBroadcast(context, extras);
@@ -31,6 +44,14 @@ public class PluginAction {
     }
 
     public static void requestRemoteData(Context context, PairDeviceInfo device, String type) {
+        requestRemoteData(context, device, type, null);
+    }
+
+    public static void requestRemoteData(Context context, PairDeviceInfo device, String type, @Nullable RemoteDataListener.onReceivedListener callback) {
+        if (callback != null) {
+            RemoteDataListener.addOnDataReceivedListener(callback);
+        }
+
         Bundle extras = new Bundle();
         extras.putString(PluginConst.DATA_KEY_TYPE, PluginConst.ACTION_REQUEST_REMOTE_ACTION);
         extras.putString(PluginConst.DATA_KEY_REMOTE_ACTION_NAME, type);
@@ -39,6 +60,14 @@ public class PluginAction {
     }
 
     public static void requestPreferences(Context context, String key) {
+        requestPreferences(context, key, null);
+    }
+
+    public static void requestPreferences(Context context, String key, @Nullable PrefsDataListener.onReceivedListener callback) {
+        if (callback != null) {
+            PrefsDataListener.addOnDataReceivedListener(callback);
+        }
+
         Bundle extras = new Bundle();
         extras.putString(PluginConst.DATA_KEY_TYPE, PluginConst.ACTION_REQUEST_PREFS);
         extras.putString(PluginConst.DATA_KEY_REMOTE_ACTION_NAME, key);
@@ -46,6 +75,14 @@ public class PluginAction {
     }
 
     public static void requestServiceStatus(Context context) {
+        requestServiceStatus(context, null);
+    }
+
+    public static void requestServiceStatus(Context context, @Nullable ServiceStatusListener.onReceivedListener callback) {
+        if (callback != null) {
+            ServiceStatusListener.addOnDataReceivedListener(callback);
+        }
+
         Bundle extras = new Bundle();
         extras.putString(PluginConst.DATA_KEY_TYPE, PluginConst.ACTION_REQUEST_SERVICE_STATUS);
         sendBroadcast(context, extras);
@@ -80,16 +117,19 @@ public class PluginAction {
         Plugin instance = Plugin.getInstance();
 
         extras.putString(PluginConst.DATA_KEY_TYPE, PluginConst.ACTION_RESPONSE_INFO);
-        extras.putBoolean(PluginConst.DATA_KEY_PLUGIN_READY, instance.isPluginReady());
-        extras.putString(PluginConst.DATA_KEY_PLUGIN_DESCRIPTION, instance.getPluginDescription());
-        extras.putString(PluginConst.DATA_KEY_SETTING_ACTIVITY, instance.getSettingClass());
+        extras.putString(PluginConst.PLUGIN_TITLE, instance.getPluginTitle());
+        extras.putString(PluginConst.PLUGIN_DESCRIPTION, instance.getPluginDescription());
+        extras.putString(PluginConst.PLUGIN_SETTING_ACTIVITY, instance.getSettingClass());
+        extras.putString(PluginConst.PLUGIN_REQUIRE_VERSION, instance.getRequireHostVersion());
+        extras.putBoolean(PluginConst.PLUGIN_READY, instance.isPluginReady());
+        extras.putBoolean(PluginConst.PLUGIN_REQUIRE_SENSITIVE_API, instance.isRequireSensitiveAPI());
 
         sendBroadcast(context, extras);
     }
 
     private static void sendBroadcast(Context context, Bundle extras) {
         Plugin instance = Plugin.getInstance();
-        extras.putString(PluginConst.DATA_KEY_PLUGIN_PACKAGE_NAME, instance.getAppPackageName());
+        extras.putString(PluginConst.PLUGIN_PACKAGE_NAME, instance.getAppPackageName());
 
         final Intent intent = new Intent();
         intent.setAction(PluginConst.SENDER_ACTION_NAME);
@@ -97,7 +137,7 @@ public class PluginAction {
         intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
         intent.setComponent(new ComponentName(PluginConst.SENDER_PACKAGE_NAME, "com.noti.main.receiver.plugin.PluginReceiver"));
         context.sendBroadcast(intent);
-        if(BuildConfig.DEBUG) Log.d("sent", extras.getString(PluginConst.DATA_KEY_TYPE));
+        if (BuildConfig.DEBUG) Log.d("sent", extras.getString(PluginConst.DATA_KEY_TYPE));
     }
 
     private static String parseDeviceData(PairDeviceInfo deviceInfo, String... extra) {
