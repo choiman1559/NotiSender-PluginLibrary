@@ -52,7 +52,7 @@ public class DataReceiver extends BroadcastReceiver {
                 case PluginConst.ACTION_PUSH_EXCEPTION:
                     if (instance == null) {
                         throw new NullPointerException("Plugin instance is null");
-                    } else instance.getPluginResponse().onReceiveException(context, (Exception) rawData.getSerializable(PluginConst.DATA_KEY_EXTRA_DATA));
+                    } else instance.getPluginResponse().onReceiveException(context, (Exception) rawData.getSerializable(PluginConst.DATA_KEY_EXCEPTION));
                     break;
 
                 case PluginConst.ACTION_RESPONSE_DEVICE_LIST:
@@ -74,7 +74,7 @@ public class DataReceiver extends BroadcastReceiver {
                     break;
 
                 case PluginConst.ACTION_RESPONSE_SERVICE_STATUS:
-                    if(ServiceStatusListener.isListenerAvailable()) ServiceStatusListener.callOnDataReceived(rawData.getBoolean(PluginConst.DATA_KEY_IS_SERVICE_RUNNING));
+                    if(ServiceStatusListener.isListenerAvailable()) ServiceStatusListener.callOnDataReceived(rawData.getString(PluginConst.DATA_KEY_IS_SERVICE_RUNNING).equals("true"));
                     break;
 
                 case PluginConst.ACTION_RESPONSE_PREFS:
