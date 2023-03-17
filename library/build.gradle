@@ -5,7 +5,7 @@ plugins {
 
 var packageId = 'com.noti.plugin'
 var nameId = 'NotiSender-PluginLibrary'
-var versionId = '1.0.3'
+var versionId = '1.0.4'
 
 afterEvaluate {
     publishing {

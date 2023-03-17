@@ -12,6 +12,7 @@ import com.noti.plugin.BuildConfig;
 import com.noti.plugin.Plugin;
 import com.noti.plugin.data.PairDeviceInfo;
 import com.noti.plugin.data.PluginConst;
+import com.noti.plugin.listener.DeviceListListener;
 import com.noti.plugin.listener.PrefsDataListener;
 import com.noti.plugin.listener.RemoteDataListener;
 import com.noti.plugin.listener.ServiceStatusListener;
@@ -25,9 +26,9 @@ public class PluginAction {
         requestDeviceList(context, null);
     }
 
-    public static void requestDeviceList(Context context, RemoteDataListener.onReceivedListener callback) {
+    public static void requestDeviceList(Context context, DeviceListListener.onReceivedListener callback) {
         if (callback != null) {
-            RemoteDataListener.addOnDataReceivedListener(callback);
+            DeviceListListener.addOnDataReceivedListener(callback);
         }
 
         Bundle extras = new Bundle();
