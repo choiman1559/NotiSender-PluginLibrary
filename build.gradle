@@ -1,16 +1,41 @@
 plugins {
     id 'com.android.library'
+    id 'maven-publish'
+}
+
+var packageId = 'com.noti.plugin'
+var nameId = 'NotiSender-PluginLibrary'
+var versionId = '1.0.1'
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = packageId
+                artifactId = nameId
+                version = versionId
+            }
+
+            debug(MavenPublication) {
+                from components.debug
+                groupId = packageId
+                artifactId = nameId
+                version = versionId
+            }
+        }
+    }
 }
 
 android {
-    namespace 'com.noti.plugin'
+    namespace packageId
     compileSdk 33
 
     defaultConfig {
         minSdk 21
         targetSdk 33
-        versionCode 1010000
-        versionName "1.0.0"
+        versionCode 1010001
+        versionName versionId
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
