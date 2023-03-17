@@ -54,7 +54,7 @@ public class PluginAction {
         }
 
         Bundle extras = new Bundle();
-        extras.putString(PluginConst.DATA_KEY_TYPE, PluginConst.ACTION_REQUEST_REMOTE_ACTION);
+        extras.putString(PluginConst.DATA_KEY_TYPE, PluginConst.ACTION_REQUEST_REMOTE_DATA);
         extras.putString(PluginConst.DATA_KEY_REMOTE_ACTION_NAME, type);
         extras.putString(PluginConst.DATA_KEY_EXTRA_DATA, parseDeviceData(device));
         sendBroadcast(context, extras);
