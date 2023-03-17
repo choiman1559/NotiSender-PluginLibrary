@@ -34,13 +34,19 @@ public class DataReceiver extends BroadcastReceiver {
                 case PluginConst.ACTION_REQUEST_REMOTE_ACTION:
                     if (instance == null) {
                         throw new NullPointerException("Plugin instance is null");
-                    } else instance.getPluginResponse().onReceiveRemoteAction(context, rawData.getString(PluginConst.DATA_KEY_REMOTE_ACTION_NAME), extra_data);
+                    } else {
+                        PairDeviceInfo device = getDeviceInfo(rawData.getString(PluginConst.DATA_KEY_REMOTE_TARGET_DEVICE));
+                        instance.getPluginResponse().onReceiveRemoteActionRequest(context, device, rawData.getString(PluginConst.DATA_KEY_REMOTE_ACTION_NAME), extra_data);
+                    }
                     break;
 
                 case PluginConst.ACTION_REQUEST_REMOTE_DATA:
                     if (instance == null) {
                         throw new NullPointerException("Plugin instance is null");
-                    } else instance.getPluginResponse().onReceiveRemoteData(context, rawData.getString(PluginConst.DATA_KEY_REMOTE_ACTION_NAME));
+                    } else {
+                        PairDeviceInfo device = getDeviceInfo(rawData.getString(PluginConst.DATA_KEY_REMOTE_TARGET_DEVICE));
+                        instance.getPluginResponse().onReceiveRemoteDataRequest(context, device, rawData.getString(PluginConst.DATA_KEY_REMOTE_ACTION_NAME));
+                    }
                     break;
 
                 case PluginConst.ACTION_PUSH_EXCEPTION:
@@ -80,5 +86,10 @@ public class DataReceiver extends BroadcastReceiver {
                     break;
             }
         }
+    }
+
+    PairDeviceInfo getDeviceInfo(String rawData) {
+        String[] info = rawData.split("\\|");
+        return new PairDeviceInfo(info[0], info[1]);
     }
 }
