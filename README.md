@@ -35,19 +35,19 @@ The following is an example of the process for getting remote data.
 4. Set the data to be sent in Device#2's plugin and send it to Device#1 in the same way as in steps 1-3.
 
 ### Action types
- - request Device List
+ - request Device List: 
   Get a list of paired devices from NotiSender.
   
- - request Remote Action
+ - request Remote Action: 
   Run a remote task from the same plugin installed on another device. 
   
- - request & response Remote Data
+ - request & response Remote Data: 
   Get specific data from the same plugin installed on different devices.
   
- - request Preferences
+ - request Preferences: 
   Gets the Preference value stored in NotiSender.
   
- - request Service Status
+ - request Service Status: 
  Check the service status of NotiSender.
 
 ## Getting start
