@@ -3,13 +3,31 @@
 
 Library for developing Plugin for NotiSender
 
+There is a live demo of the plugin!
+Download the APK or clone the project and build: [PluginShowcase](https://github.com/choiman1559/NotiSender-PluginShowcase)
+
 ## Plugin structure
 
 ### Understanding role of plugin
 
+Plugins are full-blown external apps which allow developers to add to the event, states and actions which NotiSender natively supports. Plugins can also easily be added to existing apps via an extra broadcast receiver (for signalling) and activity (to allow the user to edit their data).
+
+Some important characteristics are:
+-   the plugin UI is presented via the NotiSender UI just like native NotiSender functions
+-   the plugin developer needs no contact with the NotiSender developer to write, change, publish and/or sell their plugin app
+
+eg. [TelephonyPlugin](https://github.com/choiman1559/NotiSender-TelephonyPlugin)
+
 ### How to communicate with NotiSender
 
+![Default](https://user-images.githubusercontent.com/43315227/226097642-d2dc11c4-56ca-4b0c-99a2-731a2832e481.png)
+
+![Other Devices](https://user-images.githubusercontent.com/43315227/226097645-74094a9b-b825-464c-b213-9f8211521f0e.png)
+
+
+
 ### Action types
+
 
 ## Getting start
 ### Intergration
@@ -32,7 +50,6 @@ Add it in your root build.gradle at the end of repositories:
 	        implementation 'com.github.choiman1559:NotiSender-PluginLibrary:Tag'
 	}
 ```
-
 
 ### Initializing plugin library
 
@@ -88,3 +105,17 @@ public class Applications extends Application {
   }  
 }
 ```
+
+## Usage of plugin
+
+### Getting paired device list of NotiSender
+
+### Request remote action
+
+### Request remote data
+
+### Getting preference of NotiSender
+
+### Check host service status
+
+
