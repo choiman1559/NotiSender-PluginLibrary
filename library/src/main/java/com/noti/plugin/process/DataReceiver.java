@@ -70,7 +70,7 @@ public class DataReceiver extends BroadcastReceiver {
                     break;
 
                 case PluginConst.ACTION_RESPONSE_REMOTE_DATA:
-                    if(RemoteDataListener.isListenerAvailable()) RemoteDataListener.callOnDataReceived(PluginConst.DATA_KEY_REMOTE_ACTION_NAME, extra_data);
+                    if(RemoteDataListener.isListenerAvailable()) RemoteDataListener.callOnDataReceived(rawData.getString(PluginConst.DATA_KEY_REMOTE_ACTION_NAME), extra_data);
                     break;
 
                 case PluginConst.ACTION_RESPONSE_SERVICE_STATUS:
