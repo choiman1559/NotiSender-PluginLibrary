@@ -98,18 +98,18 @@ public class PluginAction {
     }
 
     @TestOnly
-    public static void pushCallData(Context context, String address) {
+    public static void pushCallData(Context context, String address, String nickname) {
         Bundle extras = new Bundle();
         extras.putString(PluginConst.DATA_KEY_TYPE, PluginConst.ACTION_PUSH_CALL_DATA);
-        extras.putString(PluginConst.DATA_KEY_EXTRA_DATA, address);
+        extras.putString(PluginConst.DATA_KEY_EXTRA_DATA, address + "|" + nickname);
         sendBroadcast(context, extras);
     }
 
     @TestOnly
-    public static void pushMessageData(Context context, String address, String message) {
+    public static void pushMessageData(Context context, String address, String nickname, String message) {
         Bundle extras = new Bundle();
         extras.putString(PluginConst.DATA_KEY_TYPE, PluginConst.ACTION_PUSH_MESSAGE_DATA);
-        extras.putString(PluginConst.DATA_KEY_EXTRA_DATA, address + "|" + message);
+        extras.putString(PluginConst.DATA_KEY_EXTRA_DATA, address + "|" + nickname + "|" + message);
         sendBroadcast(context, extras);
     }
 

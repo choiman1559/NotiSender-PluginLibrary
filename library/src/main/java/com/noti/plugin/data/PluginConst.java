@@ -2,7 +2,7 @@ package com.noti.plugin.data;
 
 public class PluginConst {
     public static final String SENDER_PACKAGE_NAME = "com.noti.main";
-    public static final String REQUIRE_HOST_VERSION = "1.19.0";
+    public static final String REQUIRE_HOST_VERSION = "1.19.3";
     public static final String RECEIVER_ACTION_NAME = "com.noti.plugin.DATA_TRANSFER_PLUGIN";
     public static final String SENDER_ACTION_NAME = "com.noti.plugin.DATA_TRANSFER_HOST";
 
