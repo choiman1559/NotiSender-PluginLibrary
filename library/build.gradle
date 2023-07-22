@@ -5,7 +5,7 @@ plugins {
 
 var packageId = 'com.noti.plugin'
 var nameId = 'NotiSender-PluginLibrary'
-var versionId = '1.0.5'
+var versionId = '1.0.6'
 
 afterEvaluate {
     publishing {
@@ -29,12 +29,12 @@ afterEvaluate {
 
 android {
     namespace packageId
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         minSdk 21
-        targetSdk 33
-        versionCode 1010001
+        targetSdk 34
+        versionCode 1010006
         versionName versionId
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

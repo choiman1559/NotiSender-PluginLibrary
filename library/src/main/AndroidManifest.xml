@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <permission android:name="com.noti.plugin.DATA_TRANSFER_PLUGIN" />
     <uses-permission android:name="com.noti.plugin.DATA_TRANSFER_PLUGIN" />
-    <permission android:name="com.noti.plugin.DATA_TRANSFER_HOST" />
     <uses-permission android:name="com.noti.plugin.DATA_TRANSFER_HOST" />
 
     <application>
