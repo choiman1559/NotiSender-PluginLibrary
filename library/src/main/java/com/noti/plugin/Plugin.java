@@ -1,5 +1,9 @@
 package com.noti.plugin;
 
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+
 import androidx.annotation.Nullable;
 
 import com.noti.plugin.data.PluginConst;
@@ -30,6 +34,16 @@ public class Plugin {
         if(instance == null) instance = new Plugin();
         instance.pluginResponse = pluginResponse;
         return instance;
+    }
+
+    public boolean isHostInstalled(Context context) {
+        try {
+            PackageManager pm = context.getPackageManager();
+            ApplicationInfo info = pm.getApplicationInfo(PluginConst.SENDER_PACKAGE_NAME, PackageManager.GET_META_DATA);
+            return info != null;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
     }
 
     public boolean isPluginReady() {
