@@ -12,7 +12,9 @@ import com.noti.plugin.data.PluginConst;
 import com.noti.plugin.listener.DeviceListListener;
 import com.noti.plugin.listener.PrefsDataListener;
 import com.noti.plugin.listener.RemoteDataListener;
+import com.noti.plugin.listener.SelfInfoListener;
 import com.noti.plugin.listener.ServiceStatusListener;
+import com.noti.plugin.listener.ToggleStatusListener;
 
 import java.util.ArrayList;
 
@@ -60,13 +62,15 @@ public class DataReceiver extends BroadcastReceiver {
                     ArrayList<PairDeviceInfo> deviceInfo = new ArrayList<>();
 
                     for(String device : deviceList) {
-                        String[] info = device.split("\\|");
-                        PairDeviceInfo pairInfo = new PairDeviceInfo(info[0], info[1]);
-                        pairInfo.setDeviceType(new PairDeviceType(info[2]));
-                        deviceInfo.add(pairInfo);
+                        deviceInfo.add(getDeviceInfo(device));
                     }
 
                     if(DeviceListListener.isListenerAvailable()) DeviceListListener.callOnDataReceived(deviceInfo);
+                    break;
+
+                case PluginConst.ACTION_RESPONSE_SELF_DEVICE_INFO:
+                    String deviceString = rawData.getString(PluginConst.DATA_KEY_DEVICE_LIST);
+                    if(SelfInfoListener.isListenerAvailable()) SelfInfoListener.callOnDataReceived(getDeviceInfo(deviceString));
                     break;
 
                 case PluginConst.ACTION_RESPONSE_REMOTE_DATA:
@@ -75,6 +79,10 @@ public class DataReceiver extends BroadcastReceiver {
 
                 case PluginConst.ACTION_RESPONSE_SERVICE_STATUS:
                     if(ServiceStatusListener.isListenerAvailable()) ServiceStatusListener.callOnDataReceived(rawData.getString(PluginConst.DATA_KEY_IS_SERVICE_RUNNING).equals("true"));
+                    break;
+
+                case PluginConst.ACTION_RESPONSE_PLUGIN_TOGGLE:
+                    if(ToggleStatusListener.isListenerAvailable()) ToggleStatusListener.callOnDataReceived(rawData.getString(PluginConst.DATA_KEY_IS_SERVICE_RUNNING).equals("true"));
                     break;
 
                 case PluginConst.ACTION_RESPONSE_PREFS:
@@ -90,6 +98,11 @@ public class DataReceiver extends BroadcastReceiver {
 
     PairDeviceInfo getDeviceInfo(String rawData) {
         String[] info = rawData.split("\\|");
-        return new PairDeviceInfo(info[0], info[1]);
+        PairDeviceInfo deviceInfo = new PairDeviceInfo(info[0], info[1]);
+        if(info.length > 2) {
+            deviceInfo.setDeviceType(new PairDeviceType(info[2]));
+        }
+
+        return deviceInfo;
     }
 }

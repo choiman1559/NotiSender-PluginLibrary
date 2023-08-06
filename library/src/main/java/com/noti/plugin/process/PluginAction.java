@@ -15,12 +15,28 @@ import com.noti.plugin.data.PluginConst;
 import com.noti.plugin.listener.DeviceListListener;
 import com.noti.plugin.listener.PrefsDataListener;
 import com.noti.plugin.listener.RemoteDataListener;
+import com.noti.plugin.listener.SelfInfoListener;
 import com.noti.plugin.listener.ServiceStatusListener;
+import com.noti.plugin.listener.ToggleStatusListener;
 
 import org.jetbrains.annotations.TestOnly;
 
 @SuppressWarnings("unused")
 public class PluginAction {
+
+    public static void requestSelfDeviceInfo(Context context) {
+        requestSelfDeviceInfo(context, null);
+    }
+
+    public static void requestSelfDeviceInfo(Context context, SelfInfoListener.onReceivedListener callback) {
+        if (callback != null) {
+            SelfInfoListener.addOnDataReceivedListener(callback);
+        }
+
+        Bundle extras = new Bundle();
+        extras.putString(PluginConst.DATA_KEY_TYPE, PluginConst.ACTION_REQUEST_SELF_DEVICE_INFO);
+        sendBroadcast(context, extras);
+    }
 
     public static void requestDeviceList(Context context) {
         requestDeviceList(context, null);
@@ -72,6 +88,20 @@ public class PluginAction {
         Bundle extras = new Bundle();
         extras.putString(PluginConst.DATA_KEY_TYPE, PluginConst.ACTION_REQUEST_PREFS);
         extras.putString(PluginConst.DATA_KEY_REMOTE_ACTION_NAME, key);
+        sendBroadcast(context, extras);
+    }
+
+    public static void requestPluginToggle(Context context) {
+        requestPluginToggle(context, null);
+    }
+
+    public static void requestPluginToggle(Context context, @Nullable ToggleStatusListener.onReceivedListener callback) {
+        if(callback != null) {
+            ToggleStatusListener.addOnDataReceivedListener(callback);
+        }
+
+        Bundle extras = new Bundle();
+        extras.putString(PluginConst.DATA_KEY_TYPE, PluginConst.ACTION_REQUEST_PLUGIN_TOGGLE);
         sendBroadcast(context, extras);
     }
 
