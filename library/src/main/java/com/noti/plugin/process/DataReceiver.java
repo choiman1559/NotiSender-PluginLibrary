@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.noti.plugin.Plugin;
+import com.noti.plugin.data.NotificationData;
 import com.noti.plugin.data.PairDeviceInfo;
 import com.noti.plugin.data.PairDeviceType;
 import com.noti.plugin.data.PluginConst;
@@ -87,6 +88,15 @@ public class DataReceiver extends BroadcastReceiver {
 
                 case PluginConst.ACTION_RESPONSE_PREFS:
                     if(PrefsDataListener.isListenerAvailable()) PrefsDataListener.callOnDataReceived(PluginConst.DATA_KEY_REMOTE_ACTION_NAME, extra_data);
+                    break;
+
+                case PluginConst.ACTION_PUSH_NOTIFICATION:
+                    if (instance == null) {
+                        throw new NullPointerException("Plugin instance is null");
+                    } else {
+                        NotificationData data = (NotificationData) intent.getSerializableExtra(PluginConst.DATA_KEY_EXTRA_DATA);
+                        instance.getPluginResponse().onNotificationReceived(context, data);
+                    }
                     break;
 
                 default:
