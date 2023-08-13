@@ -27,7 +27,12 @@ public class DataReceiver extends BroadcastReceiver {
         if (intent.getAction().equals(PluginConst.RECEIVER_ACTION_NAME)) {
             Bundle rawData = intent.getExtras();
             String dataType = rawData.getString(PluginConst.DATA_KEY_TYPE);
-            String extra_data = rawData.getString(PluginConst.DATA_KEY_EXTRA_DATA);
+            Object extra_data_obj = rawData.get(PluginConst.DATA_KEY_EXTRA_DATA);
+            String extra_data = "";
+
+            if(extra_data_obj instanceof String) {
+                extra_data = (String) extra_data_obj;
+            }
 
             switch (dataType) {
                 case PluginConst.ACTION_REQUEST_INFO:
