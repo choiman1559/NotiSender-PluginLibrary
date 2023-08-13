@@ -172,7 +172,7 @@ public class PluginAction {
     }
 
     private static String parseDeviceData(PairDeviceInfo deviceInfo, String... extra) {
-        StringBuilder str = new StringBuilder(deviceInfo.getDevice_name() + "|" + deviceInfo.getDevice_id());
+        StringBuilder str = new StringBuilder(deviceInfo.getDeviceName() + "|" + deviceInfo.getDeviceId());
         for (String s : extra) {
             str.append("|").append(s);
         }
