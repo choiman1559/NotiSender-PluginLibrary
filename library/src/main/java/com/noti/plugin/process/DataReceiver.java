@@ -94,7 +94,13 @@ public class DataReceiver extends BroadcastReceiver {
                     if (instance == null) {
                         throw new NullPointerException("Plugin instance is null");
                     } else {
-                        NotificationData data = (NotificationData) intent.getSerializableExtra(PluginConst.DATA_KEY_EXTRA_DATA);
+                        NotificationData data;
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                            data = (NotificationData) intent.getParcelableExtra(PluginConst.DATA_KEY_EXTRA_DATA, NotificationData.class);
+                        } else {
+                            data = (NotificationData) intent.getParcelableExtra(PluginConst.DATA_KEY_EXTRA_DATA);
+                        }
+
                         instance.getPluginResponse().onNotificationReceived(context, data);
                     }
                     break;
