@@ -1,5 +1,7 @@
 package com.noti.plugin.data;
 
+import androidx.annotation.NonNull;
+
 public class PairDeviceType {
     private final String THIS_DEVICE_TYPE;
 
@@ -18,7 +20,9 @@ public class PairDeviceType {
         this.THIS_DEVICE_TYPE = deviceType;
     }
 
-    public String getDeviceType() {
+    @NonNull
+    @Override
+    public String toString() {
         return this.THIS_DEVICE_TYPE;
     }
 }

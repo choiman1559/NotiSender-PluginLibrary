@@ -1,13 +1,17 @@
 package com.noti.plugin;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 
 import androidx.annotation.Nullable;
 
 import com.noti.plugin.data.PluginConst;
 import com.noti.plugin.listener.PluginResponse;
+
+import java.util.List;
 
 public class Plugin {
     private static Plugin instance;
@@ -37,13 +41,13 @@ public class Plugin {
     }
 
     public boolean isHostInstalled(Context context) {
-        try {
-            PackageManager pm = context.getPackageManager();
-            ApplicationInfo info = pm.getApplicationInfo(PluginConst.SENDER_PACKAGE_NAME, PackageManager.GET_META_DATA);
-            return info != null;
-        } catch (PackageManager.NameNotFoundException e) {
+        final PackageManager packageManager = context.getPackageManager();
+        Intent intent = packageManager.getLaunchIntentForPackage(PluginConst.SENDER_PACKAGE_NAME);
+        if (intent == null) {
             return false;
         }
+        List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        return list.size() > 0;
     }
 
     public boolean isPluginReady() {

@@ -14,4 +14,8 @@
             </intent-filter>
         </receiver>
     </application>
+
+    <queries>
+        <package android:name="com.noti.main" />
+    </queries>
 </manifest>

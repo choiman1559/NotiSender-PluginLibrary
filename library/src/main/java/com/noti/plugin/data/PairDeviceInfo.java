@@ -10,11 +10,11 @@ public class PairDeviceInfo {
         this.Device_name = Device_name;
     }
 
-    public String getDevice_id() {
+    public String getDeviceId() {
         return Device_id;
     }
 
-    public String getDevice_name() {
+    public String getDeviceName() {
         return Device_name;
     }
 
