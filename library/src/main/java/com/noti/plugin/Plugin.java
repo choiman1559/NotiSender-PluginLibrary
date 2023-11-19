@@ -2,7 +2,6 @@ package com.noti.plugin;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
@@ -10,6 +9,7 @@ import androidx.annotation.Nullable;
 
 import com.noti.plugin.data.PluginConst;
 import com.noti.plugin.listener.PluginResponse;
+import com.noti.plugin.process.NetworkProvider;
 
 import java.util.List;
 
@@ -22,6 +22,7 @@ public class Plugin {
     private boolean isPluginReady = false;
     private boolean isRequireSensitiveAPI = false;
     private PluginResponse pluginResponse;
+    private NetworkProvider networkProvider;
 
     public static Plugin getInstance() {
        Plugin instance = getInstanceAllowNull();
@@ -78,6 +79,14 @@ public class Plugin {
         return isRequireSensitiveAPI;
     }
 
+    public boolean hasNetworkProvider() {
+        return networkProvider != null;
+    }
+
+    public NetworkProvider getNetworkProvider() {
+        return networkProvider;
+    }
+
     public String getRequireHostVersion() {
         return PluginConst.REQUIRE_HOST_VERSION;
     }
@@ -104,5 +113,9 @@ public class Plugin {
 
     public void setRequireSensitiveAPI(boolean requireSensitiveAPI) {
         isRequireSensitiveAPI = requireSensitiveAPI;
+    }
+
+    public void setNetworkProvider(Class<?> networkProviderClass) throws IllegalAccessException, InstantiationException {
+        this.networkProvider = (NetworkProvider) networkProviderClass.newInstance();
     }
 }

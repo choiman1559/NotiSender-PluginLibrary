@@ -17,14 +17,18 @@ import com.noti.plugin.listener.SelfInfoListener;
 import com.noti.plugin.listener.ServiceStatusListener;
 import com.noti.plugin.listener.ToggleStatusListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class DataReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Plugin instance = Plugin.getInstanceAllowNull();
 
-        if (intent.getAction().equals(PluginConst.RECEIVER_ACTION_NAME)) {
+        if (Objects.equals(intent.getAction(), PluginConst.RECEIVER_ACTION_NAME)) {
             Bundle rawData = intent.getExtras();
             String dataType = rawData.getString(PluginConst.DATA_KEY_TYPE);
             Object extra_data_obj = rawData.get(PluginConst.DATA_KEY_EXTRA_DATA);
@@ -34,7 +38,7 @@ public class DataReceiver extends BroadcastReceiver {
                 extra_data = (String) extra_data_obj;
             }
 
-            switch (dataType) {
+            switch (Objects.requireNonNull(dataType)) {
                 case PluginConst.ACTION_REQUEST_INFO:
                     PluginAction.responseInformation(context);
                     break;
@@ -43,7 +47,7 @@ public class DataReceiver extends BroadcastReceiver {
                     if (instance == null) {
                         throw new NullPointerException("Plugin instance is null");
                     } else {
-                        PairDeviceInfo device = getDeviceInfo(rawData.getString(PluginConst.DATA_KEY_REMOTE_TARGET_DEVICE));
+                        PairDeviceInfo device = getDeviceInfo(Objects.requireNonNull(rawData.getString(PluginConst.DATA_KEY_REMOTE_TARGET_DEVICE)));
                         instance.getPluginResponse().onReceiveRemoteActionRequest(context, device, rawData.getString(PluginConst.DATA_KEY_REMOTE_ACTION_NAME), extra_data);
                     }
                     break;
@@ -52,7 +56,7 @@ public class DataReceiver extends BroadcastReceiver {
                     if (instance == null) {
                         throw new NullPointerException("Plugin instance is null");
                     } else {
-                        PairDeviceInfo device = getDeviceInfo(rawData.getString(PluginConst.DATA_KEY_REMOTE_TARGET_DEVICE));
+                        PairDeviceInfo device = getDeviceInfo(Objects.requireNonNull(rawData.getString(PluginConst.DATA_KEY_REMOTE_TARGET_DEVICE)));
                         instance.getPluginResponse().onReceiveRemoteDataRequest(context, device, rawData.getString(PluginConst.DATA_KEY_REMOTE_ACTION_NAME));
                     }
                     break;
@@ -84,11 +88,11 @@ public class DataReceiver extends BroadcastReceiver {
                     break;
 
                 case PluginConst.ACTION_RESPONSE_SERVICE_STATUS:
-                    if(ServiceStatusListener.isListenerAvailable()) ServiceStatusListener.callOnDataReceived(rawData.getString(PluginConst.DATA_KEY_IS_SERVICE_RUNNING).equals("true"));
+                    if(ServiceStatusListener.isListenerAvailable()) ServiceStatusListener.callOnDataReceived(Objects.equals(rawData.getString(PluginConst.DATA_KEY_IS_SERVICE_RUNNING), "true"));
                     break;
 
                 case PluginConst.ACTION_RESPONSE_PLUGIN_TOGGLE:
-                    if(ToggleStatusListener.isListenerAvailable()) ToggleStatusListener.callOnDataReceived(rawData.getString(PluginConst.DATA_KEY_IS_SERVICE_RUNNING).equals("true"));
+                    if(ToggleStatusListener.isListenerAvailable()) ToggleStatusListener.callOnDataReceived(Objects.equals(rawData.getString(PluginConst.DATA_KEY_IS_SERVICE_RUNNING), "true"));
                     break;
 
                 case PluginConst.ACTION_RESPONSE_PREFS:
@@ -107,6 +111,19 @@ public class DataReceiver extends BroadcastReceiver {
                         }
 
                         instance.getPluginResponse().onNotificationReceived(context, data);
+                    }
+                    break;
+
+                case PluginConst.NET_PROVIDER_POST:
+                    if (instance == null || !instance.hasNetworkProvider()) {
+                        throw new NullPointerException("Plugin NetworkProvider instance is null");
+                    } else {
+                        try {
+                            JSONObject networkData = new JSONObject(Objects.requireNonNull(rawData.getString(PluginConst.NET_PROVIDER_DATA)));
+                            instance.getNetworkProvider().onPostRequested(networkData);
+                        } catch (JSONException e) {
+                            new IllegalAccessException("Can't parse raw data into JSON").printStackTrace();
+                        }
                     }
                     break;
 

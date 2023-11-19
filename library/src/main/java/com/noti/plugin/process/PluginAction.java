@@ -21,6 +21,8 @@ import com.noti.plugin.listener.ToggleStatusListener;
 
 import org.jetbrains.annotations.TestOnly;
 
+import java.util.Objects;
+
 @SuppressWarnings("unused")
 public class PluginAction {
 
@@ -155,10 +157,19 @@ public class PluginAction {
         extras.putBoolean(PluginConst.PLUGIN_READY, instance.isPluginReady());
         extras.putBoolean(PluginConst.PLUGIN_REQUIRE_SENSITIVE_API, instance.isRequireSensitiveAPI());
 
+        String providerMetaData = instance.hasNetworkProvider() ? "true" : "false";
+        if(instance.hasNetworkProvider()) {
+            String providerName = instance.getNetworkProvider().getProviderName();
+            if (providerName != null && !providerName.isEmpty()) {
+                providerMetaData += ("|" + providerName);
+            }
+        }
+        extras.putString(PluginConst.NET_PROVIDER_METADATA,  providerMetaData);
+
         sendBroadcast(context, extras);
     }
 
-    private static void sendBroadcast(Context context, Bundle extras) {
+    public static void sendBroadcast(Context context, Bundle extras) {
         Plugin instance = Plugin.getInstance();
         extras.putString(PluginConst.PLUGIN_PACKAGE_NAME, instance.getAppPackageName());
 
@@ -168,7 +179,7 @@ public class PluginAction {
         intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
         intent.setComponent(new ComponentName(PluginConst.SENDER_PACKAGE_NAME, "com.noti.main.receiver.plugin.PluginReceiver"));
         context.sendBroadcast(intent);
-        if (BuildConfig.DEBUG) Log.d("sent", extras.getString(PluginConst.DATA_KEY_TYPE));
+        if (BuildConfig.DEBUG) Log.d("sent", Objects.requireNonNull(extras.getString(PluginConst.DATA_KEY_TYPE)));
     }
 
     private static String parseDeviceData(PairDeviceInfo deviceInfo, String... extra) {
