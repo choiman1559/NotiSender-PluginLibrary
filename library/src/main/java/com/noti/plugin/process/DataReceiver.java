@@ -105,9 +105,9 @@ public class DataReceiver extends BroadcastReceiver {
                     } else {
                         NotificationData data;
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-                            data = (NotificationData) intent.getParcelableExtra(PluginConst.DATA_KEY_EXTRA_DATA, NotificationData.class);
+                            data = intent.getParcelableExtra(PluginConst.DATA_KEY_EXTRA_DATA, NotificationData.class);
                         } else {
-                            data = (NotificationData) intent.getParcelableExtra(PluginConst.DATA_KEY_EXTRA_DATA);
+                            data = intent.getParcelableExtra(PluginConst.DATA_KEY_EXTRA_DATA);
                         }
 
                         instance.getPluginResponse().onNotificationReceived(context, data);
@@ -120,7 +120,7 @@ public class DataReceiver extends BroadcastReceiver {
                     } else {
                         try {
                             JSONObject networkData = new JSONObject(Objects.requireNonNull(rawData.getString(PluginConst.NET_PROVIDER_DATA)));
-                            instance.getNetworkProvider().onPostRequested(networkData);
+                            instance.getNetworkProvider().onPostRequested(context, networkData);
                         } catch (JSONException e) {
                             new IllegalAccessException("Can't parse raw data into JSON").printStackTrace();
                         }

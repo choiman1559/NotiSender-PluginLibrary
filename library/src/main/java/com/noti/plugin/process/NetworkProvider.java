@@ -14,7 +14,7 @@ public class NetworkProvider {
 
     String providerName;
 
-    public void onPostRequested(JSONObject data) {
+    public void onPostRequested(Context context, JSONObject data) {
 
     }
 
