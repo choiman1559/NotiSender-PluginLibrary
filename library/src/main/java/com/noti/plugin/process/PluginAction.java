@@ -177,7 +177,7 @@ public class PluginAction {
         intent.setAction(PluginConst.SENDER_ACTION_NAME);
         intent.putExtras(extras);
         intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-        intent.setComponent(new ComponentName(PluginConst.SENDER_PACKAGE_NAME, "com.noti.main.receiver.plugin.PluginReceiver"));
+        intent.setComponent(new ComponentName(PluginConst.SENDER_PACKAGE_NAME, instance.isSyncTAKCompatibility() ? PluginConst.RECEIVER_TAK_CLASS_NAME : PluginConst.RECEIVER_CLASS_NAME));
         context.sendBroadcast(intent);
         if (BuildConfig.DEBUG) Log.d("sent", Objects.requireNonNull(extras.getString(PluginConst.DATA_KEY_TYPE)));
     }

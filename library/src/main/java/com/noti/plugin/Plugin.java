@@ -21,6 +21,7 @@ public class Plugin {
     private String settingClass;
     private boolean isPluginReady = false;
     private boolean isRequireSensitiveAPI = false;
+    private boolean isSyncTAKCompatibility = false;
     private PluginResponse pluginResponse;
     private NetworkProvider networkProvider;
 
@@ -79,6 +80,10 @@ public class Plugin {
         return isRequireSensitiveAPI;
     }
 
+    public boolean isSyncTAKCompatibility() {
+        return isSyncTAKCompatibility;
+    }
+
     public boolean hasNetworkProvider() {
         return networkProvider != null;
     }
@@ -97,6 +102,10 @@ public class Plugin {
 
     public void setPluginReady(boolean pluginReady) {
         isPluginReady = pluginReady;
+    }
+
+    public void setSyncTAKCompatibility(boolean syncTAKCompatibility) {
+        isSyncTAKCompatibility = syncTAKCompatibility;
     }
 
     public void setPluginTitle(String pluginTitle) {
