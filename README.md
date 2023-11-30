@@ -50,6 +50,13 @@ The following is an example of the process for getting remote data.
  - request Service Status: 
  Check the service status of NotiSender.
 
+### Custom Network Provider API
+
+![ClassDiagram1](https://github.com/choiman1559/NotiSender-PluginLibrary/assets/43315227/4384cd1b-2220-4052-bc86-ef49c87e85ea)
+
+Now NotiSender can hand over network demands occured by NotiSender to Third-party plugin application,
+So that network transmitting/receiving action can be processed through a desired network (e.g. custom XMPP server, etc.)
+
 ## Getting start
 ### Intergration
 **Step 1.** Add the JitPack repository to your build file
@@ -126,7 +133,15 @@ public class Applications extends Application {
   plugin.setAppPackageName(/* Plugin application's package name */);  
   plugin.setPluginReady(/* boolean */);  
   plugin.setSettingClass(/* Class<?> */);  
-  plugin.setRequireSensitiveAPI(/* boolean*/);  
+  plugin.setRequireSensitiveAPI(/* boolean*/);
+
+ //Setting custom network provider options
+  try {
+ 	plugin.setNetworkProvider(CustomNetProvider.class);
+        plugin.getNetworkProvider().setProviderName("Plugin Showcase");
+    } catch (IllegalAccessException | InstantiationException e) {
+	throw new RuntimeException(e);
+    }
   }  
 }
 ```
