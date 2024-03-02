@@ -68,7 +68,10 @@ public class DataReceiver extends BroadcastReceiver {
                     } else {
                         PluginHostInject hostInject = instance.getPluginHostInject();
                         if(hostInject != null) {
-                            hostInject.onHostInject(context, rawData.getString(PluginConst.DATA_KEY_REMOTE_TARGET_DEVICE), extra_data);
+                            hostInject.onHostInject(context,
+                                    Objects.requireNonNull(rawData.getString(PluginConst.DATA_KEY_REMOTE_ACTION_NAME)),
+                                    rawData.getString(PluginConst.DATA_KEY_REMOTE_TARGET_DEVICE),
+                                    extra_data);
                         }
                     }
                     break;
