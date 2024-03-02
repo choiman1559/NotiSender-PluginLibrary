@@ -130,21 +130,15 @@ public class PluginAction {
     }
 
     @TestOnly
-    public static void pushCallData(Context context, String address, String nickname) {
+    public static void responseHostApiInject(Context context, String device, String dataType, String args) {
         Bundle extras = new Bundle();
-        extras.putString(PluginConst.DATA_KEY_TYPE, PluginConst.ACTION_PUSH_CALL_DATA);
-        extras.putString(PluginConst.DATA_KEY_EXTRA_DATA, address + "|" + nickname);
+        extras.putString(PluginConst.DATA_KEY_TYPE, PluginConst.ACTION_RESPONSE_HOST_INJECT);
+        extras.putString(PluginConst.DATA_KEY_REMOTE_TARGET_DEVICE, device);
+        extras.putString(PluginConst.DATA_KEY_REMOTE_ACTION_NAME, dataType);
+        extras.putString(PluginConst.DATA_KEY_EXTRA_DATA, args);
         sendBroadcast(context, extras);
     }
-
-    @TestOnly
-    public static void pushMessageData(Context context, String address, String nickname, String message) {
-        Bundle extras = new Bundle();
-        extras.putString(PluginConst.DATA_KEY_TYPE, PluginConst.ACTION_PUSH_MESSAGE_DATA);
-        extras.putString(PluginConst.DATA_KEY_EXTRA_DATA, address + "|" + nickname + "|" + message);
-        sendBroadcast(context, extras);
-    }
-
+    
     static void responseInformation(Context context) {
         Bundle extras = new Bundle();
         Plugin instance = Plugin.getInstance();

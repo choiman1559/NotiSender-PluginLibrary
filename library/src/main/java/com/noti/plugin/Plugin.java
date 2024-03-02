@@ -8,6 +8,7 @@ import android.content.pm.ResolveInfo;
 import androidx.annotation.Nullable;
 
 import com.noti.plugin.data.PluginConst;
+import com.noti.plugin.listener.PluginHostInject;
 import com.noti.plugin.listener.PluginResponse;
 import com.noti.plugin.process.NetworkProvider;
 
@@ -24,6 +25,7 @@ public class Plugin {
     private boolean isSyncTAKCompatibility = false;
     private PluginResponse pluginResponse;
     private NetworkProvider networkProvider;
+    private PluginHostInject pluginHostInject;
 
     public static Plugin getInstance() {
        Plugin instance = getInstanceAllowNull();
@@ -92,6 +94,10 @@ public class Plugin {
         return networkProvider;
     }
 
+    public PluginHostInject getPluginHostInject() {
+        return pluginHostInject;
+    }
+
     public String getRequireHostVersion() {
         return PluginConst.REQUIRE_HOST_VERSION;
     }
@@ -126,5 +132,9 @@ public class Plugin {
 
     public void setNetworkProvider(Class<?> networkProviderClass) throws IllegalAccessException, InstantiationException {
         this.networkProvider = (NetworkProvider) networkProviderClass.newInstance();
+    }
+
+    public void setPluginHostInject(Class<?> pluginHostInjectClass) throws IllegalAccessException, InstantiationException {
+        this.pluginHostInject = (PluginHostInject) pluginHostInjectClass.newInstance();
     }
 }

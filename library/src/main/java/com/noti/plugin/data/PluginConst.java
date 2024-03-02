@@ -2,7 +2,7 @@ package com.noti.plugin.data;
 
 public class PluginConst {
     public static final String SENDER_PACKAGE_NAME = "com.noti.main";
-    public static final String REQUIRE_HOST_VERSION = "1.20.3";
+    public static final String REQUIRE_HOST_VERSION = "1.20.9";
     public static final String RECEIVER_TAK_CLASS_NAME = "com.sync.tak.receivers.nsplugin.PluginReceiver";
     public static final String RECEIVER_CLASS_NAME = "com.noti.main.receiver.plugin.PluginReceiver";
     public static final String RECEIVER_ACTION_NAME = "com.noti.plugin.DATA_TRANSFER_PLUGIN";
@@ -32,6 +32,7 @@ public class PluginConst {
     public static final String ACTION_REQUEST_SERVICE_STATUS = "request_is_running";
     public static final String ACTION_REQUEST_PLUGIN_TOGGLE = "request_plugin_toggle";
     public static final String ACTION_REQUEST_SELF_DEVICE_INFO = "request_self_info";
+    public static final String ACTION_REQUEST_HOST_INJECT = "request_host_inject";
 
     public static final String ACTION_RESPONSE_INFO = "response_plugin_info";
     public static final String ACTION_RESPONSE_DEVICE_LIST = "response_device_list";
@@ -40,9 +41,8 @@ public class PluginConst {
     public static final String ACTION_RESPONSE_SERVICE_STATUS = "response_is_running";
     public static final String ACTION_RESPONSE_PLUGIN_TOGGLE = "response_plugin_toggle";
     public static final String ACTION_RESPONSE_SELF_DEVICE_INFO = "response_self_info";
+    public static final String ACTION_RESPONSE_HOST_INJECT = "response_host_inject";
 
-    public static final String ACTION_PUSH_MESSAGE_DATA = "push_message_data";
-    public static final String ACTION_PUSH_CALL_DATA = "push_call_data";
     public static final String ACTION_PUSH_EXCEPTION = "push_exception";
     public static final String ACTION_PUSH_NOTIFICATION = "push_notification";
 

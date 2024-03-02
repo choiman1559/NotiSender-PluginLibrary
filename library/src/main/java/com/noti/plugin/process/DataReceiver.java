@@ -11,6 +11,7 @@ import com.noti.plugin.data.PairDeviceInfo;
 import com.noti.plugin.data.PairDeviceType;
 import com.noti.plugin.data.PluginConst;
 import com.noti.plugin.listener.DeviceListListener;
+import com.noti.plugin.listener.PluginHostInject;
 import com.noti.plugin.listener.PrefsDataListener;
 import com.noti.plugin.listener.RemoteDataListener;
 import com.noti.plugin.listener.SelfInfoListener;
@@ -58,6 +59,17 @@ public class DataReceiver extends BroadcastReceiver {
                     } else {
                         PairDeviceInfo device = getDeviceInfo(Objects.requireNonNull(rawData.getString(PluginConst.DATA_KEY_REMOTE_TARGET_DEVICE)));
                         instance.getPluginResponse().onReceiveRemoteDataRequest(context, device, rawData.getString(PluginConst.DATA_KEY_REMOTE_ACTION_NAME));
+                    }
+                    break;
+
+                case PluginConst.ACTION_REQUEST_HOST_INJECT:
+                    if (instance == null) {
+                        throw new NullPointerException("Plugin instance is null");
+                    } else {
+                        PluginHostInject hostInject = instance.getPluginHostInject();
+                        if(hostInject != null) {
+                            hostInject.onHostInject(context, rawData.getString(PluginConst.DATA_KEY_REMOTE_TARGET_DEVICE), extra_data);
+                        }
                     }
                     break;
 
