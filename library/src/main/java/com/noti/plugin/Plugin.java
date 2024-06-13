@@ -7,11 +7,13 @@ import android.content.pm.ResolveInfo;
 
 import androidx.annotation.Nullable;
 
+import com.noti.plugin.data.PairRemoteAction;
 import com.noti.plugin.data.PluginConst;
 import com.noti.plugin.listener.PluginHostInject;
 import com.noti.plugin.listener.PluginResponse;
 import com.noti.plugin.process.NetworkProvider;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Plugin {
@@ -26,6 +28,7 @@ public class Plugin {
     private PluginResponse pluginResponse;
     private NetworkProvider networkProvider;
     private PluginHostInject pluginHostInject;
+    private final ArrayList<PairRemoteAction> pairRemoteActions = new ArrayList<>();
 
     public static Plugin getInstance() {
        Plugin instance = getInstanceAllowNull();
@@ -51,7 +54,7 @@ public class Plugin {
             return false;
         }
         List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-        return list.size() > 0;
+        return !list.isEmpty();
     }
 
     public boolean isPluginReady() {
@@ -98,6 +101,10 @@ public class Plugin {
         return pluginHostInject;
     }
 
+    public ArrayList<PairRemoteAction> getPairRemoteActions() {
+        return pairRemoteActions;
+    }
+
     public String getRequireHostVersion() {
         return PluginConst.REQUIRE_HOST_VERSION;
     }
@@ -136,5 +143,17 @@ public class Plugin {
 
     public void setPluginHostInject(Class<?> pluginHostInjectClass) throws IllegalAccessException, InstantiationException {
         this.pluginHostInject = (PluginHostInject) pluginHostInjectClass.newInstance();
+    }
+
+    public void addPairRemoteActions(PairRemoteAction pairRemoteAction) {
+        this.pairRemoteActions.add(pairRemoteAction);
+    }
+
+    public void removePairRemoteActions(PairRemoteAction pairRemoteAction) {
+        this.pairRemoteActions.remove(pairRemoteAction);
+    }
+
+    public void removeAllPairRemoteActions() {
+        this.pairRemoteActions.clear();
     }
 }

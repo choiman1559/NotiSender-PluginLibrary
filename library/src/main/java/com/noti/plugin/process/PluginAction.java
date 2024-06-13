@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import com.noti.plugin.BuildConfig;
 import com.noti.plugin.Plugin;
 import com.noti.plugin.data.PairDeviceInfo;
+import com.noti.plugin.data.PairRemoteAction;
 import com.noti.plugin.data.PluginConst;
 import com.noti.plugin.listener.DeviceListListener;
 import com.noti.plugin.listener.PrefsDataListener;
@@ -21,6 +22,7 @@ import com.noti.plugin.listener.ToggleStatusListener;
 
 import org.jetbrains.annotations.TestOnly;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 @SuppressWarnings("unused")
@@ -150,6 +152,14 @@ public class PluginAction {
         extras.putString(PluginConst.PLUGIN_REQUIRE_VERSION, instance.getRequireHostVersion());
         extras.putBoolean(PluginConst.PLUGIN_READY, instance.isPluginReady());
         extras.putBoolean(PluginConst.PLUGIN_REQUIRE_SENSITIVE_API, instance.isRequireSensitiveAPI());
+
+        ArrayList<PairRemoteAction> remoteActionArrayList = instance.getPairRemoteActions();
+        PairRemoteAction[] remoteActions = new PairRemoteAction[remoteActionArrayList.size()];
+
+        for(int i = 0;i < remoteActions.length;i++) {
+            remoteActions[i] = remoteActionArrayList.get(i);
+        }
+        extras.putParcelableArray(PluginConst.PLUGIN_REMOTE_ACTIONS_LIST, remoteActions);
 
         String providerMetaData = instance.hasNetworkProvider() ? "true" : "false";
         if(instance.hasNetworkProvider()) {

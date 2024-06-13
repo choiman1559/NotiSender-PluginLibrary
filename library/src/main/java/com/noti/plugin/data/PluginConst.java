@@ -2,17 +2,22 @@ package com.noti.plugin.data;
 
 public class PluginConst {
     public static final String SENDER_PACKAGE_NAME = "com.noti.main";
-    public static final String REQUIRE_HOST_VERSION = "1.20.9";
+    public static final String REQUIRE_HOST_VERSION = "1.21.0";
     public static final String RECEIVER_TAK_CLASS_NAME = "com.sync.tak.receivers.nsplugin.PluginReceiver";
     public static final String RECEIVER_CLASS_NAME = "com.noti.main.receiver.plugin.PluginReceiver";
     public static final String RECEIVER_ACTION_NAME = "com.noti.plugin.DATA_TRANSFER_PLUGIN";
     public static final String SENDER_ACTION_NAME = "com.noti.plugin.DATA_TRANSFER_HOST";
+
+    public static final String DEVICE_ID_KEY = "device_id";
+    public static final String DEVICE_NAME_KEY = "device_name";
+    public static final String DEVICE_TYPE_KEY = "device_type";
 
     public static final String PLUGIN_TITLE = "title";
     public static final String PLUGIN_PACKAGE_NAME = "package_name";
     public static final String PLUGIN_DESCRIPTION = "description";
     public static final String PLUGIN_READY = "is_plugin_ready";
     public static final String PLUGIN_SETTING_ACTIVITY = "setting_activity";
+    public static final String PLUGIN_REMOTE_ACTIONS_LIST = "remote_actions_list";
     public static final String PLUGIN_REQUIRE_SENSITIVE_API = "require_sensitive_api";
     public static final String PLUGIN_REQUIRE_VERSION = "require_host_version";
 
